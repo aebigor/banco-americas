@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registro</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Registro</h2>
+
+    <input type="text" id="user" placeholder="Usuario">
+    <input type="password" id="pass" placeholder="Contraseña">
+
+    <input type="number" id="saldo" placeholder="Saldo inicial">
+    <input type="text" id="cuenta" placeholder="Número de cuenta">
+    <input type="text" id="tipoCuenta" placeholder="Tipo de cuenta">
+
+    <input type="text" id="direccion" placeholder="Dirección">
+    <input type="text" id="correo" placeholder="Correo">
+    <input type="text" id="residencia" placeholder="Tiempo de residencia">
+    <input type="text" id="estadoCivil" placeholder="Estado civil">
+    <input type="text" id="personas" placeholder="Personas a cargo">
+    <input type="text" id="trabajo" placeholder="Trabajo actual">
+
+    <input type="number" id="salario" placeholder="Salario mensual">
+    <input type="number" id="gastos" placeholder="Gastos mensuales">
+    <input type="number" id="deudas" placeholder="Deudas">
+    <input type="number" id="inversiones" placeholder="Inversiones">
+
+    <button onclick="registrar()">Crear Cuenta</button>
+</div>
+
+<script>
+function registrar(){
+
+    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    let nuevoUsuario = {
+        usuario: document.getElementById("user").value,
+        password: document.getElementById("pass").value,
+
+        saldo: parseFloat(document.getElementById("saldo").value),
+        numeroCuenta: document.getElementById("cuenta").value,
+        tipoCuenta: document.getElementById("tipoCuenta").value,
+
+        direccion: document.getElementById("direccion").value,
+        correo: document.getElementById("correo").value,
+        residencia: document.getElementById("residencia").value,
+        estadoCivil: document.getElementById("estadoCivil").value,
+        personas: document.getElementById("personas").value,
+        trabajo: document.getElementById("trabajo").value,
+
+        salario: parseFloat(document.getElementById("salario").value),
+        gastos: parseFloat(document.getElementById("gastos").value),
+        deudas: parseFloat(document.getElementById("deudas").value),
+        inversiones: parseFloat(document.getElementById("inversiones").value)
+    };
+
+    usuarios.push(nuevoUsuario);
+
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+    alert("Usuario creado correctamente");
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

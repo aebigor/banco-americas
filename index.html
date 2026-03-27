@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Iniciar Sesión</h2>
+
+    <form id="loginForm">
+        <label>Nombre de Usuario</label>
+        <input type="text" id="usuario" required>
+
+        <label>Contraseña</label>
+        <input type="password" id="password" required>
+
+        <button type="submit">Ingresar</button>
+    </form>
+</div>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let user = document.getElementById("usuario").value;
+    let pass = document.getElementById("password").value;
+
+    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    let encontrado = usuarios.find(u => u.usuario === user && u.password === pass);
+
+    if(encontrado){
+        localStorage.setItem("usuarioActivo", JSON.stringify(encontrado));
+        window.location.href = "dashboard.html";
+    } else {
+        alert("Usuario incorrecto");
+    }
+});
+</script>
+
+</body>
+</html>

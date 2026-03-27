@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles1.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <h2 id="saludo"></h2>
+    <p>Clave Dinámica</p>
+</div>
+
+<div class="logout">
+    <button onclick="cerrarSesion()">Cerrar Sesión</button>
+</div>
+
+<!-- CUENTA -->
+<div class="card">
+    <h3 class="green">Cuenta Ahorros</h3>
+    <h2 id="saldo"></h2>
+    <p id="numCuenta"></p>
+    <p id="tipoCuenta"></p>
+
+    <div class="botones">
+        <button onclick="bloqueado()">Ver Saldos</button>
+        <button onclick="mostrarTransferencia()">Transferir Dinero</button>
+        <button onclick="bloqueado()">Retirar Dinero</button>
+        <button onclick="bloqueado()">Pagar Créditos</button>
+        <button class="full" onclick="bloqueado()">Conoce más de tu cuenta</button>
+    </div>
+</div>
+
+<div class="card" id="transferenciaBox" style="display: none;">
+    <h3>Transferir Dinero</h3>
+
+    <input type="text" id="destino" placeholder="Usuario destino">
+    <input type="number" id="monto" placeholder="Monto">
+
+    <button onclick="transferir()">Enviar</button>
+</div>
+
+<!-- INFO PERSONAL -->
+<div class="card">
+    <h3 class="green">Información Personal</h3>
+    <p id="direccion"></p>
+    <p id="correo"></p>
+    <p id="residencia"></p>
+    <p id="estadoCivil"></p>
+    <p id="personas"></p>
+    <p id="trabajo"></p>
+    <p id="salario"></p>
+    <p id="gastos"></p>
+    <p id="deudas"></p>
+    <p id="inversiones"></p>
+</div>
+
+<!-- GRAFICA -->
+<div class="card">
+    <h3 class="green">Resumen de Movimientos</h3>
+    <canvas id="grafica"></canvas>
+</div>
+
+<!-- IMAGEN FINAL -->
+<div class="card">
+    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3" class="img-final">
+</div>
+
+<!-- WHATSAPP -->
+<a href="#" class="whatsapp" onclick="bloqueado()">💬</a>
+
+<!-- FOOTER -->
+<div class="footer">
+    <div onclick="bloqueado()">🏠<span>Inicio</span></div>
+    <div onclick="bloqueado()">💳<span>Transacciones</span></div>
+    <div onclick="bloqueado()">📂<span>Explorar</span></div>
+    <div onclick="bloqueado()">📄<span>Trámites</span></div>
+    <div onclick="bloqueado()">⚙️<span>Ajustes</span></div>
+</div>
+
+<script>
+let user = JSON.parse(localStorage.getItem("usuarioActivo"));
+
+// SALUDO
+document.getElementById("saludo").innerText = "Hola, " + user.usuario;
+
+// SALDO
+document.getElementById("saldo").innerText =
+    "Saldo disponible: " + user.saldo.toLocaleString() + " US$";
+
+// DATOS CUENTA
+document.getElementById("numCuenta").innerText =
+    "Número de Cuenta: " + user.numeroCuenta;
+
+document.getElementById("tipoCuenta").innerText =
+    "Tipo de Cuenta: " + user.tipoCuenta;
+
+// INFO PERSONAL
+document.getElementById("direccion").innerText = "Dirección: " + user.direccion;
+document.getElementById("correo").innerText = "Correo: " + user.correo;
+document.getElementById("residencia").innerText = "Tiempo de residencia: " + user.residencia;
+document.getElementById("estadoCivil").innerText = "Estado civil: " + user.estadoCivil;
+document.getElementById("personas").innerText = "Personas a cargo: " + user.personas;
+document.getElementById("trabajo").innerText = "Trabajo actual: " + user.trabajo;
+
+document.getElementById("salario").innerText =
+    "Salario mensual: " + user.salario + " US$";
+
+document.getElementById("gastos").innerText =
+    "Gastos mensuales: " + user.gastos + " US$";
+
+document.getElementById("deudas").innerText =
+    "Deudas: " + user.deudas + " US$";
+
+document.getElementById("inversiones").innerText =
+    "Inversiones: " + user.inversiones + " US$";
+</script>
+<script>
+// USUARIO
+let usuario = localStorage.getItem("usuario");
+document.getElementById("saludo").innerText = "Hola, " + usuario;
+
+// LOGOUT
+function cerrarSesion() {
+    localStorage.removeItem("usuario");
+    window.location.href = "index.html";
+}
+
+// MENSAJE BLOQUEADO
+function bloqueado(){
+    alert("Esta cuenta se encuentra congelada, hasta que no realice los pagos pertinentes.");
+}
+
+// GRAFICA
+const ctx = document.getElementById('grafica');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Consignaciones', 'Créditos', 'Pagos'],
+        datasets: [{
+            label: 'Dólares ($)',
+            data: [1200000, 0, 0]
+        }]
+    }
+});
+</script>
+
+<script>
+function transferir(){
+    let destino = document.getElementById("destino").value;
+    let monto = parseFloat(document.getElementById("monto").value);
+
+    let usuarios = JSON.parse(localStorage.getItem("usuarios"));
+    let actual = JSON.parse(localStorage.getItem("usuarioActivo"));
+
+    let userDestino = usuarios.find(u => u.usuario === destino);
+    let userOrigen = usuarios.find(u => u.usuario === actual.usuario);
+
+    if(!userDestino){
+        alert("Usuario no existe");
+        return;
+    }
+
+    if(userOrigen.saldo < monto){
+        alert("Saldo insuficiente");
+        return;
+    }
+
+    userOrigen.saldo -= monto;
+    userDestino.saldo += monto;
+
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    localStorage.setItem("usuarioActivo", JSON.stringify(userOrigen));
+
+    alert("Transferencia realizada");
+    location.reload();
+}
+</script>
+
+
+<script>
+function mostrarTransferencia(){
+    let box = document.getElementById("transferenciaBox");
+
+    if(box.style.display === "none"){
+        box.style.display = "block";
+        box.scrollIntoView({ behavior: "smooth" });
+    } else {
+        box.style.display = "none";
+    }
+}
+
+function transferir(){
+    let destino = document.getElementById("destino").value;
+    let monto = parseFloat(document.getElementById("monto").value);
+
+    let usuarios = JSON.parse(localStorage.getItem("usuarios"));
+    let actual = JSON.parse(localStorage.getItem("usuarioActivo"));
+
+    let userDestino = usuarios.find(u => u.usuario === destino);
+    let userOrigen = usuarios.find(u => u.usuario === actual.usuario);
+
+    if(!userDestino){
+        alert("Usuario no existe");
+        return;
+    }
+
+    if(userOrigen.saldo < monto){
+        alert("Saldo insuficiente");
+        return;
+    }
+
+    userOrigen.saldo -= monto;
+    userDestino.saldo += monto;
+
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    localStorage.setItem("usuarioActivo", JSON.stringify(userOrigen));
+
+    alert("Transferencia realizada");
+
+    // 🔥 ocultar formulario
+    document.getElementById("transferenciaBox").style.display = "none";
+
+    location.reload();
+}
+
+</script>
+
+
+</body>
+</html>
