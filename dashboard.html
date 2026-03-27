@@ -86,6 +86,12 @@
 <script>
 let user = JSON.parse(localStorage.getItem("usuarioActivo"));
 
+// 🔒 Validar si no hay sesión
+if(!user){
+    alert("No hay sesión activa");
+    window.location.href = "index.html";
+}
+
 // SALUDO
 document.getElementById("saludo").innerText = "Hola, " + user.usuario;
 
@@ -121,9 +127,6 @@ document.getElementById("inversiones").innerText =
     "Inversiones: " + user.inversiones + " US$";
 </script>
 <script>
-// USUARIO
-let usuario = localStorage.getItem("usuario");
-document.getElementById("saludo").innerText = "Hola, " + usuario;
 
 // LOGOUT
 function cerrarSesion() {
@@ -153,33 +156,59 @@ new Chart(ctx, {
 
 <script>
 function transferir(){
-    let destino = document.getElementById("destino").value;
+    let destino = document.getElementById("destino").value.trim();
     let monto = parseFloat(document.getElementById("monto").value);
 
-    let usuarios = JSON.parse(localStorage.getItem("usuarios"));
+    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
     let actual = JSON.parse(localStorage.getItem("usuarioActivo"));
+
+    // 🔒 Validaciones básicas
+    if(!destino || isNaN(monto) || monto <= 0){
+        alert("Ingrese datos válidos");
+        return;
+    }
 
     let userDestino = usuarios.find(u => u.usuario === destino);
     let userOrigen = usuarios.find(u => u.usuario === actual.usuario);
 
+    // ❌ Usuario no existe
     if(!userDestino){
-        alert("Usuario no existe");
+        alert("El usuario destino no existe");
         return;
     }
 
+    // ❌ No puede transferirse a sí mismo
+    if(userOrigen.usuario === userDestino.usuario){
+        alert("No puedes transferirte a ti mismo");
+        return;
+    }
+
+    // ❌ Fondos insuficientes
     if(userOrigen.saldo < monto){
-        alert("Saldo insuficiente");
+        alert("Fondos insuficientes");
         return;
     }
 
+    // 💸 TRANSFERENCIA
     userOrigen.saldo -= monto;
     userDestino.saldo += monto;
 
+    // 💾 Guardar cambios
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
     localStorage.setItem("usuarioActivo", JSON.stringify(userOrigen));
 
-    alert("Transferencia realizada");
-    location.reload();
+    alert("Transferencia realizada con éxito");
+
+    // 🔄 Actualizar saldo en pantalla SIN recargar
+    document.getElementById("saldo").innerText =
+        "Saldo disponible: " + userOrigen.saldo.toLocaleString() + " US$";
+
+    // 🧹 Limpiar formulario
+    document.getElementById("destino").value = "";
+    document.getElementById("monto").value = "";
+
+    // 🔽 Ocultar formulario
+    document.getElementById("transferenciaBox").style.display = "none";
 }
 </script>
 
