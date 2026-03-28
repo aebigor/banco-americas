@@ -28,7 +28,7 @@ document.getElementById("loginForm").addEventListener("submit", function(e){
     let user = document.getElementById("usuario").value;
     let pass = document.getElementById("password").value;
 
-    fetch("http://localhost:3000/login", {
+    fetch("https://bank-america-vercel-app.onrender.com/index.html", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -46,14 +46,7 @@ document.getElementById("loginForm").addEventListener("submit", function(e){
     })
     .catch(() => alert("Usuario incorrecto"));
 
-    let encontrado = usuarios.find(u => u.usuario === user && u.password === pass);
-
-    if(encontrado){
-        localStorage.setItem("usuarioActivo", JSON.stringify(encontrado));
-        window.location.href = "dashboard.html";
-    } else {
-        alert("Usuario incorrecto");
-    }
+    
 });
 </script>
 

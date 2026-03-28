@@ -1,44 +1,58 @@
+require("dotenv").config();
 const express = require("express");
-const fs = require("fs");
+const mongoose = require("mongoose");
 const cors = require("cors");
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("Servidor corriendo"));
+
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const FILE = "usuarios.json";
+// 🔗 conectar Mongo
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log("Mongo conectado"))
+.catch(err => console.log(err));
 
-// leer
-const leer = () => JSON.parse(fs.readFileSync(FILE));
-
-// guardar
-const guardar = (data) => fs.writeFileSync(FILE, JSON.stringify(data, null, 2));
+// 📦 modelo usuario
+const Usuario = mongoose.model("Usuario", {
+    usuario: String,
+    password: String,
+    saldo: Number,
+    numeroCuenta: String,
+    tipoCuenta: String,
+    direccion: String,
+    correo: String,
+    residencia: String,
+    estadoCivil: String,
+    personas: String,
+    trabajo: String,
+    salario: Number,
+    gastos: Number,
+    deudas: Number,
+    inversiones: Number
+});
 
 // 🧾 REGISTRO
-app.post("/registro", (req, res) => {
-    let usuarios = leer();
+app.post("/registro", async (req, res) => {
 
-    let existe = usuarios.find(u => u.usuario === req.body.usuario);
+    let existe = await Usuario.findOne({ usuario: req.body.usuario });
 
     if(existe){
         return res.status(400).json({ msg: "Usuario ya existe" });
     }
 
-    usuarios.push(req.body);
-    guardar(usuarios);
+    let nuevo = new Usuario(req.body);
+    await nuevo.save();
 
     res.json({ msg: "Usuario creado" });
 });
 
 // 🔐 LOGIN
-app.post("/login", (req, res) => {
-    let usuarios = leer();
+app.post("/login", async (req, res) => {
 
-    let user = usuarios.find(u =>
-        u.usuario === req.body.usuario &&
-        u.password === req.body.password
-    );
+    let user = await Usuario.findOne({
+        usuario: req.body.usuario,
+        password: req.body.password
+    });
 
     if(!user){
         return res.status(401).json({ msg: "Error login" });
@@ -47,14 +61,22 @@ app.post("/login", (req, res) => {
     res.json(user);
 });
 
+// 👤 OBTENER USUARIO
+app.get("/usuario/:usuario", async (req, res) => {
+    let user = await Usuario.findOne({ usuario: req.params.usuario });
+
+    if(!user) return res.status(404).json({ msg: "No existe" });
+
+    res.json(user);
+});
+
 // 💸 TRANSFERENCIA
-app.post("/transferir", (req, res) => {
+app.post("/transferir", async (req, res) => {
+
     let { origen, destino, monto } = req.body;
 
-    let usuarios = leer();
-
-    let o = usuarios.find(u => u.usuario === origen);
-    let d = usuarios.find(u => u.usuario === destino);
+    let o = await Usuario.findOne({ usuario: origen });
+    let d = await Usuario.findOne({ usuario: destino });
 
     if(!d) return res.status(404).json({ msg: "Destino no existe" });
 
@@ -64,9 +86,11 @@ app.post("/transferir", (req, res) => {
     o.saldo -= monto;
     d.saldo += monto;
 
-    guardar(usuarios);
+    await o.save();
+    await d.save();
 
     res.json({ msg: "Transferencia OK", saldo: o.saldo });
 });
 
-app.listen(3000, () => console.log("Servidor listo"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Servidor corriendo"));
