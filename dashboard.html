@@ -165,34 +165,50 @@ new Chart(ctx, {
 
 <script>
 function transferir(){
+    let destino = document.getElementById("destino").value.trim();
     let monto = parseFloat(document.getElementById("monto").value);
 
     let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
     let actual = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-    if(isNaN(monto) || monto <= 0){
-        alert("Monto inválido");
+    if(!destino || isNaN(monto) || monto <= 0){
+        alert("Datos inválidos");
         return;
     }
 
-    let index = usuarios.findIndex(u => u.usuario === actual.usuario);
+    let indexOrigen = usuarios.findIndex(u => u.usuario === actual.usuario);
+    let indexDestino = usuarios.findIndex(u => u.usuario === destino);
 
-    if(usuarios[index].saldo < monto){
+    if(indexOrigen === -1){
+        alert("Error usuario");
+        return;
+    }
+
+    if(indexDestino === -1){
+        alert("Usuario destino no existe");
+        return;
+    }
+
+    if(usuarios[indexOrigen].saldo < monto){
         alert("Fondos insuficientes");
         return;
     }
 
-    // 🔥 DESCONTAR DE UNA
-    usuarios[index].saldo -= monto;
+    // 🔥 DESCONTAR BIEN
+    usuarios[indexOrigen].saldo -= monto;
 
+    // (opcional) sumar al destino
+    usuarios[indexDestino].saldo += monto;
+
+    // guardar
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    localStorage.setItem("usuarioActivo", JSON.stringify(usuarios[index]));
+    localStorage.setItem("usuarioActivo", JSON.stringify(usuarios[indexOrigen]));
 
-    // 🔥 ACTUALIZAR EN PANTALLA
+    // actualizar pantalla
     document.getElementById("saldo").innerText =
-        "Saldo disponible: " + usuarios[index].saldo.toLocaleString() + " US$";
+        "Saldo disponible: " + usuarios[indexOrigen].saldo.toLocaleString() + " US$";
 
-    // 🔽 OCULTAR FORMULARIO
+    // ocultar form
     document.getElementById("transferenciaBox").style.display = "none";
 
     // limpiar
@@ -231,42 +247,40 @@ function solicitar(){
         return;
     }
 
-    let session = JSON.parse(localStorage.getItem("usuarioActivo"));
+    alert("Solicitud enviada... recibirás el dinero en unos segundos");
 
-    alert("Solicitud enviada... recibirás el dinero en 3 minutos");
-
-    // ocultar formulario
     document.getElementById("solicitudBox").style.display = "none";
     document.getElementById("montoSolicitud").value = "";
 
-    // ⏳ esperar 3 minutos
     setTimeout(() => {
 
-        // 🔥 VOLVER A LEER TODO DESDE LOCALSTORAGE
         let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-        let usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
+        let activo = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-        let index = usuarios.findIndex(u => u.usuario === usuarioActivo.usuario);
-
-        if(index === -1){
-            alert("Error al actualizar saldo");
+        if(!activo){
+            alert("Sesión perdida");
             return;
         }
 
-        // 🔥 SUMAR DINERO
+        let index = usuarios.findIndex(u => u.usuario === activo.usuario);
+
+        if(index === -1){
+            alert("Usuario no encontrado");
+            return;
+        }
+
+        // 🔥 SUMAR CORRECTO
         usuarios[index].saldo += monto;
 
-        // guardar
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
         localStorage.setItem("usuarioActivo", JSON.stringify(usuarios[index]));
 
-        // 🔥 ACTUALIZAR EN PANTALLA
         document.getElementById("saldo").innerText =
             "Saldo disponible: " + usuarios[index].saldo.toLocaleString() + " US$";
 
         alert("Dinero recibido correctamente");
 
-    }, 3000); // 👈 cambia a 180000 cuando ya funcione (3 min)
+    }, 3000); // luego cambias a 180000
 }
 </script>
 
