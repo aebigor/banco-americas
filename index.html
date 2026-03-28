@@ -28,25 +28,16 @@ document.getElementById("loginForm").addEventListener("submit", function(e){
     let user = document.getElementById("usuario").value;
     let pass = document.getElementById("password").value;
 
-    fetch("https://banco-americas.onrender.com/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            usuario: user,
-            password: pass
-        })
-    })
-    .then(res => {
-        if(!res.ok) throw new Error();
-        return res.json();
-    })
-    .then(data => {
-        localStorage.setItem("usuarioActivo", JSON.stringify(data));
-        window.location.href = "dashboard.html";
-    })
-    .catch(() => alert("Usuario incorrecto"));
+    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-    
+    let encontrado = usuarios.find(u => u.usuario === user && u.password === pass);
+
+    if(encontrado){
+        localStorage.setItem("usuarioActivo", JSON.stringify(encontrado));
+        window.location.href = "dashboard.html";
+    } else {
+        alert("Usuario incorrecto");
+    }
 });
 </script>
 

@@ -14,8 +14,8 @@
     <input type="password" id="pass" placeholder="Contraseña">
 
     <input type="number" id="saldo" placeholder="Saldo inicial">
-    <input type="text" id="cuenta" placeholder="Número de cuenta">
-    <input type="text" id="tipoCuenta" placeholder="Tipo de cuenta">
+    
+    
 
     <input type="text" id="direccion" placeholder="Dirección">
     <input type="text" id="correo" placeholder="Correo">
@@ -23,6 +23,7 @@
     <input type="text" id="estadoCivil" placeholder="Estado civil">
     <input type="text" id="personas" placeholder="Personas a cargo">
     <input type="text" id="trabajo" placeholder="Trabajo actual">
+    <input type="text" id="codigo" placeholder="Código de acceso">
 
     <input type="number" id="salario" placeholder="Salario mensual">
     <input type="number" id="gastos" placeholder="Gastos mensuales">
@@ -35,8 +36,28 @@
 <script>
 function registrar(){
 
+    let codigo = document.getElementById("codigo").value;
+
+    // 🔒 VALIDAR CÓDIGO
+    if(codigo !== "KPO24"){
+        alert("Código de acceso incorrecto");
+        return;
+    }
+
+    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    let usuarioInput = document.getElementById("user").value;
+
+    // 🔥 VALIDAR SI YA EXISTE
+    let existe = usuarios.find(u => u.usuario === usuarioInput);
+
+    if(existe){
+        alert("El usuario ya existe");
+        return;
+    }
+
     let nuevoUsuario = {
-        usuario: document.getElementById("user").value,
+        usuario: usuarioInput,
         password: document.getElementById("pass").value,
 
         saldo: parseFloat(document.getElementById("saldo").value),
@@ -56,16 +77,12 @@ function registrar(){
         inversiones: parseFloat(document.getElementById("inversiones").value)
     };
 
-    fetch("https://bank-america-vercel-app.onrender.com/registro", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(nuevoUsuario)
-    })
-    .then(res => res.json())
-    .then(data => {
-        alert(data.msg);
-        window.location.href = "index.html";
-    });
+    usuarios.push(nuevoUsuario);
+
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+    alert("Usuario creado correctamente");
+    window.location.href = "index.html";
 }
 </script>
 

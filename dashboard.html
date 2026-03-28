@@ -31,9 +31,18 @@
         <button onclick="bloqueado()">Ver Saldos</button>
         <button onclick="mostrarTransferencia()">Transferir Dinero</button>
         <button onclick="bloqueado()">Retirar Dinero</button>
+        <button onclick="mostrarSolicitud()">Solicitar Dinero</button>
         <button onclick="bloqueado()">Pagar Créditos</button>
-        <button class="full" onclick="bloqueado()">Conoce más de tu cuenta</button>
+        <button onclick="bloqueado()">Conoce más de tu cuenta</button>
     </div>
+</div>
+<div class="card" id="solicitudBox" style="display: none;">
+    <h3>Solicitar Dinero</h3>
+
+    <input type="text" id="usuarioSolicitud" placeholder="Usuario">
+    <input type="number" id="montoSolicitud" placeholder="Monto">
+
+    <button onclick="solicitar()">Solicitar</button>
 </div>
 
 <div class="card" id="transferenciaBox" style="display: none;">
@@ -84,56 +93,47 @@
 </div>
 
 <script>
-let session = JSON.parse(localStorage.getItem("usuarioActivo"));
+let user = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-if(!session){
+// 🔒 Validar si no hay sesión
+if(!user){
     alert("No hay sesión activa");
     window.location.href = "index.html";
 }
 
-// 🔥 pedir datos al backend
-fetch(`https://bank-america-vercel-app.onrender.com/usuario/${session.usuario}`)
-.then(res => {
-    if(!res.ok){
-        alert("Sesión inválida");
-        localStorage.removeItem("usuarioActivo");
-        window.location.href = "index.html";
-        return;
-    }
-    return res.json();
-})
-.then(user => {
+// SALUDO
+document.getElementById("saludo").innerText = "Hola, " + user.usuario;
 
-    document.getElementById("saludo").innerText = "Hola, " + user.usuario;
+// SALDO
+document.getElementById("saldo").innerText =
+    "Saldo disponible: " + user.saldo.toLocaleString() + " US$";
 
-    document.getElementById("saldo").innerText =
-        "Saldo disponible: " + user.saldo.toLocaleString() + " US$";
+// DATOS CUENTA
+document.getElementById("numCuenta").innerText =
+    "Número de Cuenta: " + user.numeroCuenta;
 
-    document.getElementById("numCuenta").innerText =
-        "Número de Cuenta: " + user.numeroCuenta;
+document.getElementById("tipoCuenta").innerText =
+    "Tipo de Cuenta: " + user.tipoCuenta;
 
-    document.getElementById("tipoCuenta").innerText =
-        "Tipo de Cuenta: " + user.tipoCuenta;
+// INFO PERSONAL
+document.getElementById("direccion").innerText = "Dirección: " + user.direccion;
+document.getElementById("correo").innerText = "Correo: " + user.correo;
+document.getElementById("residencia").innerText = "Tiempo de residencia: " + user.residencia;
+document.getElementById("estadoCivil").innerText = "Estado civil: " + user.estadoCivil;
+document.getElementById("personas").innerText = "Personas a cargo: " + user.personas;
+document.getElementById("trabajo").innerText = "Trabajo actual: " + user.trabajo;
 
-    document.getElementById("direccion").innerText = "Dirección: " + user.direccion;
-    document.getElementById("correo").innerText = "Correo: " + user.correo;
-    document.getElementById("residencia").innerText = "Tiempo de residencia: " + user.residencia;
-    document.getElementById("estadoCivil").innerText = "Estado civil: " + user.estadoCivil;
-    document.getElementById("personas").innerText = "Personas a cargo: " + user.personas;
-    document.getElementById("trabajo").innerText = "Trabajo actual: " + user.trabajo;
+document.getElementById("salario").innerText =
+    "Salario mensual: " + user.salario + " US$";
 
-    document.getElementById("salario").innerText =
-        "Salario mensual: " + user.salario + " US$";
+document.getElementById("gastos").innerText =
+    "Gastos mensuales: " + user.gastos + " US$";
 
-    document.getElementById("gastos").innerText =
-        "Gastos mensuales: " + user.gastos + " US$";
+document.getElementById("deudas").innerText =
+    "Deudas: " + user.deudas + " US$";
 
-    document.getElementById("deudas").innerText =
-        "Deudas: " + user.deudas + " US$";
-
-    document.getElementById("inversiones").innerText =
-        "Inversiones: " + user.inversiones + " US$";
-}); 
+document.getElementById("inversiones").innerText =
+    "Inversiones: " + user.inversiones + " US$";
 </script>
 <script>
 
@@ -163,6 +163,46 @@ new Chart(ctx, {
 });
 </script>
 
+<script>
+function transferir(){
+    let monto = parseFloat(document.getElementById("monto").value);
+
+    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+    let actual = JSON.parse(localStorage.getItem("usuarioActivo"));
+
+    if(isNaN(monto) || monto <= 0){
+        alert("Monto inválido");
+        return;
+    }
+
+    let index = usuarios.findIndex(u => u.usuario === actual.usuario);
+
+    if(usuarios[index].saldo < monto){
+        alert("Fondos insuficientes");
+        return;
+    }
+
+    // 🔥 DESCONTAR DE UNA
+    usuarios[index].saldo -= monto;
+
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    localStorage.setItem("usuarioActivo", JSON.stringify(usuarios[index]));
+
+    // 🔥 ACTUALIZAR EN PANTALLA
+    document.getElementById("saldo").innerText =
+        "Saldo disponible: " + usuarios[index].saldo.toLocaleString() + " US$";
+
+    // 🔽 OCULTAR FORMULARIO
+    document.getElementById("transferenciaBox").style.display = "none";
+
+    // limpiar
+    document.getElementById("monto").value = "";
+    document.getElementById("destino").value = "";
+
+    alert("Transferencia exitosa");
+}
+</script>
+
 
 <script>
 function mostrarTransferencia(){
@@ -176,31 +216,58 @@ function mostrarTransferencia(){
     }
 }
 
-function transferir(){
-    let destino = document.getElementById("destino").value;
-    let monto = parseFloat(document.getElementById("monto").value);
 
-    let actual = JSON.parse(localStorage.getItem("usuarioActivo"));
+function mostrarSolicitud(){
+    let box = document.getElementById("solicitudBox");
 
-    fetch("https://bank-america-vercel-app.onrender.com/transferir", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            origen: actual.usuario,
-            destino: destino,
-            monto: monto
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        alert(data.msg);
-
-        // actualizar saldo en pantalla
-        document.getElementById("saldo").innerText =
-            "Saldo disponible: " + data.saldo + " US$";
-    });
+    box.style.display = box.style.display === "none" ? "block" : "none";
 }
 
+function solicitar(){
+    let monto = parseFloat(document.getElementById("montoSolicitud").value);
+
+    if(isNaN(monto) || monto <= 0){
+        alert("Monto inválido");
+        return;
+    }
+
+    let session = JSON.parse(localStorage.getItem("usuarioActivo"));
+
+    alert("Solicitud enviada... recibirás el dinero en 3 minutos");
+
+    // ocultar formulario
+    document.getElementById("solicitudBox").style.display = "none";
+    document.getElementById("montoSolicitud").value = "";
+
+    // ⏳ esperar 3 minutos
+    setTimeout(() => {
+
+        // 🔥 VOLVER A LEER TODO DESDE LOCALSTORAGE
+        let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+        let usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
+
+        let index = usuarios.findIndex(u => u.usuario === usuarioActivo.usuario);
+
+        if(index === -1){
+            alert("Error al actualizar saldo");
+            return;
+        }
+
+        // 🔥 SUMAR DINERO
+        usuarios[index].saldo += monto;
+
+        // guardar
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+        localStorage.setItem("usuarioActivo", JSON.stringify(usuarios[index]));
+
+        // 🔥 ACTUALIZAR EN PANTALLA
+        document.getElementById("saldo").innerText =
+            "Saldo disponible: " + usuarios[index].saldo.toLocaleString() + " US$";
+
+        alert("Dinero recibido correctamente");
+
+    }, 3000); // 👈 cambia a 180000 cuando ya funcione (3 min)
+}
 </script>
 
 
