@@ -130,7 +130,7 @@ document.getElementById("inversiones").innerText =
 
 // LOGOUT
 function cerrarSesion() {
-    localStorage.removeItem("usuario");
+    localStorage.removeItem("usuarioActivo");
     window.location.href = "index.html";
 }
 
@@ -154,64 +154,6 @@ new Chart(ctx, {
 });
 </script>
 
-<script>
-function transferir(){
-    let destino = document.getElementById("destino").value.trim();
-    let monto = parseFloat(document.getElementById("monto").value);
-
-    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-    let actual = JSON.parse(localStorage.getItem("usuarioActivo"));
-
-    // 🔒 Validaciones básicas
-    if(!destino || isNaN(monto) || monto <= 0){
-        alert("Ingrese datos válidos");
-        return;
-    }
-
-    let userDestino = usuarios.find(u => u.usuario === destino);
-    let userOrigen = usuarios.find(u => u.usuario === actual.usuario);
-
-    // ❌ Usuario no existe
-    if(!userDestino){
-        alert("El usuario destino no existe");
-        return;
-    }
-
-    // ❌ No puede transferirse a sí mismo
-    if(userOrigen.usuario === userDestino.usuario){
-        alert("No puedes transferirte a ti mismo");
-        return;
-    }
-
-    // ❌ Fondos insuficientes
-    if(userOrigen.saldo < monto){
-        alert("Fondos insuficientes");
-        return;
-    }
-
-    // 💸 TRANSFERENCIA
-    userOrigen.saldo -= monto;
-    userDestino.saldo += monto;
-
-    // 💾 Guardar cambios
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    localStorage.setItem("usuarioActivo", JSON.stringify(userOrigen));
-
-    alert("Transferencia realizada con éxito");
-
-    // 🔄 Actualizar saldo en pantalla SIN recargar
-    document.getElementById("saldo").innerText =
-        "Saldo disponible: " + userOrigen.saldo.toLocaleString() + " US$";
-
-    // 🧹 Limpiar formulario
-    document.getElementById("destino").value = "";
-    document.getElementById("monto").value = "";
-
-    // 🔽 Ocultar formulario
-    document.getElementById("transferenciaBox").style.display = "none";
-}
-</script>
-
 
 <script>
 function mostrarTransferencia(){
@@ -229,34 +171,25 @@ function transferir(){
     let destino = document.getElementById("destino").value;
     let monto = parseFloat(document.getElementById("monto").value);
 
-    let usuarios = JSON.parse(localStorage.getItem("usuarios"));
     let actual = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-    let userDestino = usuarios.find(u => u.usuario === destino);
-    let userOrigen = usuarios.find(u => u.usuario === actual.usuario);
+    fetch("https://bank-america-vercel-app.onrender.com/transferir", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            origen: actual.usuario,
+            destino: destino,
+            monto: monto
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.msg);
 
-    if(!userDestino){
-        alert("Usuario no existe");
-        return;
-    }
-
-    if(userOrigen.saldo < monto){
-        alert("Saldo insuficiente");
-        return;
-    }
-
-    userOrigen.saldo -= monto;
-    userDestino.saldo += monto;
-
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    localStorage.setItem("usuarioActivo", JSON.stringify(userOrigen));
-
-    alert("Transferencia realizada");
-
-    // 🔥 ocultar formulario
-    document.getElementById("transferenciaBox").style.display = "none";
-
-    location.reload();
+        // actualizar saldo en pantalla
+        document.getElementById("saldo").innerText =
+            "Saldo disponible: " + data.saldo + " US$";
+    });
 }
 
 </script>
