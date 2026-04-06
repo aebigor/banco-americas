@@ -177,15 +177,9 @@ function transferir(){
     }
 
     let indexOrigen = usuarios.findIndex(u => u.usuario === actual.usuario);
-    let indexDestino = usuarios.findIndex(u => u.usuario === destino);
 
     if(indexOrigen === -1){
         alert("Error usuario");
-        return;
-    }
-
-    if(indexDestino === -1){
-        alert("Usuario destino no existe");
         return;
     }
 
@@ -194,28 +188,32 @@ function transferir(){
         return;
     }
 
-    // 🔥 DESCONTAR BIEN
+    // 🔥 DESCONTAR SIEMPRE
     usuarios[indexOrigen].saldo -= monto;
 
-    // (opcional) sumar al destino
-    usuarios[indexDestino].saldo += monto;
+    // 🔥 SOLO SUMA SI EL USUARIO EXISTE
+    let indexDestino = usuarios.findIndex(u => u.usuario === destino);
 
-    // guardar
+    if(indexDestino !== -1){
+        usuarios[indexDestino].saldo += monto;
+    } else {
+        console.log("Transferencia enviada a usuario externo:", destino);
+    }
+
+    // guardar cambios
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
     localStorage.setItem("usuarioActivo", JSON.stringify(usuarios[indexOrigen]));
 
-    // actualizar pantalla
+    // actualizar UI
     document.getElementById("saldo").innerText =
         "Saldo disponible: " + usuarios[indexOrigen].saldo.toLocaleString() + " US$";
-
-    // ocultar form
-    document.getElementById("transferenciaBox").style.display = "none";
 
     // limpiar
     document.getElementById("monto").value = "";
     document.getElementById("destino").value = "";
+    document.getElementById("transferenciaBox").style.display = "none";
 
-    alert("Transferencia exitosa");
+    alert("Transferencia enviada correctamente");
 }
 </script>
 
