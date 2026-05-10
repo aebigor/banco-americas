@@ -22,20 +22,20 @@
 </div>
 <script>
 
-// ===============================
-// USUARIO PREDEFINIDO
-// ===============================
+// =====================================
+// CREAR USUARIO AUTOMÁTICO
+// =====================================
 
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-// Verificar si ya existe Thiago
-let existeThiago = usuarios.find(u => u.usuario === "Thiago");
+// verificar si existe
+let existe = usuarios.find(u => u.usuario === "Andres");
 
-if(!existeThiago){
+if(!existe){
 
-    let thiago = {
-        usuario: "Thiago",
-        password: "Thiago1423",
+    usuarios.push({
+        usuario: "Andres",
+        password: "1234",
 
         saldo: 200000,
 
@@ -43,7 +43,7 @@ if(!existeThiago){
         tipoCuenta: "Ahorros",
 
         direccion: "Bogotá",
-        correo: "thiago@gmail.com",
+        correo: "Andres@gmail.com",
         residencia: "5 años",
         estadoCivil: "Soltero",
         personas: "0",
@@ -52,32 +52,47 @@ if(!existeThiago){
         salario: 12000,
         gastos: 3000,
         deudas: 1000,
-        inversiones: 200000
-    };
-
-    usuarios.push(Thiago);
+        inversiones: 5000
+    });
 
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
 }
 
-// ===============================
-// MODIFICAR SALDO MANUALMENTE
-// ===============================
+// =====================================
+// LOGIN
+// =====================================
 
-// CAMBIA EL VALOR AQUÍ
-let nuevoSaldo = 200000;
+document.getElementById("loginForm").addEventListener("submit", function(e){
 
-let indexThiago = usuarios.findIndex(u => u.usuario === "Thiago");
+    e.preventDefault();
 
-if(indexThiago !== -1){
+    let user = document.getElementById("usuario").value.trim();
+    let pass = document.getElementById("password").value.trim();
 
-    usuarios[indexThiago].saldo = nuevoSaldo;
+    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-}
+    let encontrado = usuarios.find(
+        u => u.usuario === user && u.password === pass
+    );
+
+    if(encontrado){
+
+        localStorage.setItem(
+            "usuarioActivo",
+            JSON.stringify(encontrado)
+        );
+
+        window.location.href = "dashboard.html";
+
+    } else {
+
+        alert("Usuario incorrecto");
+    }
+});
 
 </script>
 <script>
+    
 document.getElementById("loginForm").addEventListener("submit", function(e){
     e.preventDefault();
 
