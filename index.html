@@ -20,7 +20,63 @@
         <button type="submit">Ingresar</button>
     </form>
 </div>
+<script>
 
+// ===============================
+// USUARIO PREDEFINIDO
+// ===============================
+
+let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+// Verificar si ya existe Thiago
+let existeThiago = usuarios.find(u => u.usuario === "Thiago");
+
+if(!existeThiago){
+
+    let thiago = {
+        usuario: "Thiago",
+        password: "Thiago1423",
+
+        saldo: 200000,
+
+        numeroCuenta: "4589632147",
+        tipoCuenta: "Ahorros",
+
+        direccion: "Bogotá",
+        correo: "thiago@gmail.com",
+        residencia: "5 años",
+        estadoCivil: "Soltero",
+        personas: "0",
+        trabajo: "Empresario",
+
+        salario: 12000,
+        gastos: 3000,
+        deudas: 1000,
+        inversiones: 200000
+    };
+
+    usuarios.push(Thiago);
+
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+}
+
+// ===============================
+// MODIFICAR SALDO MANUALMENTE
+// ===============================
+
+// CAMBIA EL VALOR AQUÍ
+let nuevoSaldo = 200000;
+
+let indexThiago = usuarios.findIndex(u => u.usuario === "Thiago");
+
+if(indexThiago !== -1){
+
+    usuarios[indexThiago].saldo = nuevoSaldo;
+
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+}
+
+</script>
 <script>
 document.getElementById("loginForm").addEventListener("submit", function(e){
     e.preventDefault();
