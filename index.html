@@ -29,29 +29,29 @@
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // verificar si existe
-let existe = usuarios.find(u => u.usuario === "Javier0711");
+let existe = usuarios.find(u => u.usuario === "Jonasg");
 
 if(!existe){
 
     usuarios.push({
-        usuario: "Javier0711",
-        password: "JC12345$",
+        usuario: "Jonasg",
+        password: "031187",
 
-        saldo: 100000,
+        saldo: 150000,
 
         numeroCuenta: "4589632147",
         tipoCuenta: "Ahorros",
 
         direccion: "N/A",
-        correo: "jcjc3563@gmail.com",
+        correo: "jonasantoniogoveagalban@gmail.com",
         residencia: "2 años",
         estadoCivil: "Soltero",
         personas: "3",
-        trabajo: "Zapateria",
+        trabajo: "Docente",
 
-        salario: 10000,
+        salario: 700,
         gastos: 3000,
-        deudas: 0,
+        deudas: 150,
         inversiones: 5000
     });
 
