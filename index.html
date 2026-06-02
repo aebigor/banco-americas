@@ -30,12 +30,12 @@ localStorage.removeItem("usuarioActivo");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // verificar si existe
-let existe = usuarios.find(u => u.usuario === "JuanSalgado");
+let existe = usuarios.find(u => u.usuario === "Juansalgado");
 
 if(!existe){
 
     usuarios.push({
-        usuario: "JuanSalgado",
+        usuario: "Juansalgado",
         password: "0859",
 
         saldo: 100000,
