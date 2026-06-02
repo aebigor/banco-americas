@@ -21,7 +21,8 @@
     </form>
 </div>
 <script>
-
+localStorage.removeItem("usuarios");
+localStorage.removeItem("usuarioActivo");
 // =====================================
 // CREAR USUARIO AUTOMÁTICO
 // =====================================
@@ -29,28 +30,28 @@
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // verificar si existe
-let existe = usuarios.find(u => u.usuario === "Mirta");
+let existe = usuarios.find(u => u.usuario === "JuanSalgado");
 
 if(!existe){
 
     usuarios.push({
-        usuario: "Mirta",
+        usuario: "JuanSalgado",
         password: "0859",
 
-        saldo: 75000,
+        saldo: 100000,
 
         numeroCuenta: "4589632147",
         tipoCuenta: "Ahorros",
 
         direccion: "N/A",
-        correo: "rosav-mirta@hotmail.com",
-        residencia: "N/A",
-        estadoCivil: "N/A",
-        personas: "N/A",
-        trabajo: "jubilada",
+        correo: "cerratoazucena1@gmail.com",
+        residencia: "2 meses",
+        estadoCivil: "Union libre",
+        personas: "2",
+        trabajo: "trasnportista",
 
-        salario: 42000,
-        gastos: 22000,
+        salario: 30000,
+        gastos: 15000,
         deudas: 0,
         inversiones: 0
     });
