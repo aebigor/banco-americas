@@ -29,36 +29,53 @@ localStorage.removeItem("usuarioActivo");
 
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-// verificar si existe
-let existe = usuarios.find(u => u.usuario === "Carlos Cerdas");
+// Usuario 1
+let existeCarlos = usuarios.find(u => u.usuario === "Carlos Cerdas");
 
-if(!existe){
-
+if (!existeCarlos) {
     usuarios.push({
         usuario: "Carlos Cerdas",
         password: "3071",
-
         saldo: 750000,
-
         numeroCuenta: "4589632147",
         tipoCuenta: "Ahorros",
-
         direccion: "Cartago",
         correo: "ccerdasjimenez@gmail.com",
         residencia: "54",
         estadoCivil: "casado",
         personas: "4",
-        trabajo: "Mantenimiento vial/ taller mecanico ",
-
+        trabajo: "Mantenimiento vial/ taller mecanico",
         salario: 7000,
         gastos: 6000,
         deudas: 0,
         inversiones: 0
     });
-
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
 }
 
+// Usuario 2
+let existeMaria = usuarios.find(u => u.usuario === "Marlon Danilo");
+
+if (!existeMaria) {
+    usuarios.push({
+        usuario: "Marlon Danilo",
+        password: "8914",
+        saldo: 400000,
+        numeroCuenta: "7894561230",
+        tipoCuenta: "Corriente",
+        direccion: "N/A",
+        correo: "Marlon744@gmail.com",
+        residencia: "N/A",
+        estadoCivil: "N/A",
+        personas: "N/A",
+        trabajo: "N/A",
+        salario: 9000,
+        gastos: 400,
+        deudas: N/A,
+        inversiones: N/A
+    });
+}
+
+localStorage.setItem("usuarios", JSON.stringify(usuarios));
 // =====================================
 // LOGIN
 // =====================================
