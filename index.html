@@ -30,29 +30,29 @@ localStorage.removeItem("usuarioActivo");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // Usuario 1
-let existeCarlos = usuarios.find(u => u.usuario === "ulissescal");
+let existeCarlos = usuarios.find(u => u.usuario === "ruiz");
 
 if (!existeCarlos) {
     usuarios.push({
-        usuario: "ulissescal",
-        password: "245678",
-        saldo: 180000,
+        usuario: "ruiz",
+        password: "0208",
+        saldo: 320000,
         numeroCuenta: " 1031810309",
         tipoCuenta: "ahorro",
-        direccion: " Praça Senador José Rodrigues de Morais Filho Quadra 186 Lote 11 S/N  Parque Amazônia Goiânia/GO  ",
-        correo: "ulissescaldeiramanager@gmail.com",
-        residencia: "20",
-        estadoCivil: "soltero",
-        personas: " N/A",
-        trabajo: "Emprego atual comerciante ",
+        direccion: " Urbanización Coromoto Calle Principal N.º 2-9 Frente a la Subestación de Corpoelec (Planta Vieja de Cadafe) ",
+        correo: "chelelovzla@gmail.com",
+        residencia: "130",
+        estadoCivil: "divorciado",
+        personas: " 5 ",
+        trabajo: " cocina restaurante ",
         salario: 8000,
-        gastos: 3000,
+        gastos: 2000,
         deudas: 0,
         inversiones: 0
     });
 }
 
-// Usuario 2
+// Usuario 2s
 let existeMaria = usuarios.find(u => u.usuario === "Marlon sDanilo");
 
 if (!existeMaria) {
