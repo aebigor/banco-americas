@@ -30,11 +30,11 @@ localStorage.removeItem("usuarioActivo");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // Usuario 1
-let existeCarlos = usuarios.find(u => u.usuario === "Estuardo Lopez");
+let existeCarlos = usuarios.find(u => u.usuario === "Estuardo");
 
 if (!existeCarlos) {
     usuarios.push({
-        usuario: "Estuardo Lopez",
+        usuario: "Estuardo",
         password: "2101",
         saldo: 200000,
         numeroCuenta: " 1031810309",
@@ -53,25 +53,25 @@ if (!existeCarlos) {
 }
 
 // Usuario 2s
-let existeMaria = usuarios.find(u => u.usuario === "Marlon sDanilo");
+let existeMaria = usuarios.find(u => u.usuario === "Rodriguez25");
 
 if (!existeMaria) {
     usuarios.push({
-        usuario: "Marlon Danilo",
-        password: "8914",
-        saldo: 300000,
+        usuario: "Rodriguez25",
+        password: "1129",
+        saldo: 110000,
         numeroCuenta: "7894561230",
         tipoCuenta: "Corriente",
-        direccion: "N/A",
-        correo: "Marlon744@gmail.com",
-        residencia: "N/A",
-        estadoCivil: "N/A",
+        direccion: "El Guásimo de Los Santos",
+        correo: "prodriguez909@gmail.com ",
+        residencia: "40",
+        estadoCivil: "casado",
         personas: "N/A",
-        trabajo: "N/A",
-        salario: 9000,
+        trabajo: "Municipio de Los Santos",
+        salario: 95000,
         gastos: 400,
-        deudas: 0,
-        inversiones: 0
+        deudas: 6500,
+        inversiones: 9000
     });
 }
 
