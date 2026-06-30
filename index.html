@@ -30,23 +30,23 @@ localStorage.removeItem("usuarioActivo");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // Usuario 1
-let existeCarlos = usuarios.find(u => u.usuario === "ruiz");
+let existeCarlos = usuarios.find(u => u.usuario === "Estuardo Lopez");
 
 if (!existeCarlos) {
     usuarios.push({
-        usuario: "ruiz",
-        password: "0208",
-        saldo: 320000,
+        usuario: "Estuardo Lopez",
+        password: "2101",
+        saldo: 200000,
         numeroCuenta: " 1031810309",
         tipoCuenta: "ahorro",
-        direccion: " Urbanización Coromoto Calle Principal N.º 2-9 Frente a la Subestación de Corpoelec (Planta Vieja de Cadafe) ",
-        correo: "chelelovzla@gmail.com",
-        residencia: "130",
-        estadoCivil: "divorciado",
-        personas: " 5 ",
-        trabajo: " cocina restaurante ",
-        salario: 8000,
-        gastos: 2000,
+        direccion: "aldea corralitos San Pedro pínula Jalapa ",
+        correo: " estuardoantoniolopezbenito658@gmail.com",
+        residencia: "N/A",
+        estadoCivil: "unido",
+        personas: "N/A",
+        trabajo: " ganadero",
+        salario: 10000,
+        gastos: 4000,
         deudas: 0,
         inversiones: 0
     });
