@@ -30,25 +30,25 @@ localStorage.removeItem("usuarioActivo");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // Usuario 1
-let existeCarlos = usuarios.find(u => u.usuario === "ICHABELA");
+let existeCarlos = usuarios.find(u => u.usuario === "oscar");
 
 if (!existeCarlos) {
     usuarios.push({
-        usuario: "ICHABELA",
-        password: "05028013",
-        saldo: 75500,
+        usuario: "oscar",
+        password: "99283638",
+        saldo: 153000,
         numeroCuenta: " 1031810309",
         tipoCuenta: "ahorro",
-        direccion: "Urbanizacion la pionera",
-        correo: "igracielagar@gmail.com",
-        residencia: "8",
-        estadoCivil: "soltera",
-        personas: "2",
-        trabajo: "empresa de alimento y bebidas",
-        salario: 20000,
-        gastos: 10000,
+        direccion: "una cuadra al sur del mercado sanfrancisco",
+        correo: "N/A",
+        residencia: "11",
+        estadoCivil: "Union libre",
+        personas: "1",
+        trabajo: "bodega de verduras",
+        salario: 250000,
+        gastos: 36000,
         deudas: 0,
-        inversiones: 2
+        inversiones: 0
     });
 }
 
