@@ -30,28 +30,27 @@ localStorage.removeItem("usuarioActivo");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // Usuario 1
-let existeCarlos = usuarios.find(u => u.usuario === "Julio");
+let existeCarlos = usuarios.find(u => u.usuario === "Gerson");
 
 if (!existeCarlos) {
     usuarios.push({
-        usuario: "Julio",
-        password: "20261980",
-        saldo: 90000,
+        usuario: "Gerson",
+        password: "12345678",
+        saldo: 80000,
         numeroCuenta: " 1031810309",
         tipoCuenta: "ahorro",
-        direccion: "N/A",
-        correo: "barbarancesar26@gmail.com",
-        residencia: "20",
-        estadoCivil: "Conviviente",
-        personas: "3",
-        trabajo: "instituto peruano del deporte",
-        salario: 12000,
-        gastos: 6000,
-        deudas: 30000,
-        inversiones: 600000
+        direccion: "calle en rikiyo lo tamarindo provincia Sánchez Ramírez",
+        correo: "N/A",
+        residencia: "11",
+        estadoCivil: "Union libre",
+        personas: "1",
+        trabajo: " si ceguera y militar Retirado",
+        salario: 250000,
+        gastos: 36000,
+        deudas: 0,
+        inversiones: 0
     });
 }
-
 // Usuario 2s
 let existeMaria = usuarios.find(u => u.usuario === "vuzqueda");
 
