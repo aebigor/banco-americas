@@ -30,24 +30,24 @@ localStorage.removeItem("usuarioActivo");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // Usuario 1
-let existeCarlos = usuarios.find(u => u.usuario === "Florencio");
+let existeCarlos = usuarios.find(u => u.usuario === "caelvr");
 
 if (!existeCarlos) {
     usuarios.push({
-        usuario: "Florencio",
-        password: "56789010",
-        saldo: 150000,
+        usuario: "caelvr",
+        password: "2019182030",
+        saldo: 745000,
         numeroCuenta: " 1031810309",
         tipoCuenta: "ahorro",
         direccion: "N/A",
-        correo: "aguirregrajalesflorencioarmodi@gmail.com",
-        residencia: "18",
-        estadoCivil: "Soltero",
-        personas: "1",
-        trabajo: "N/A",
-        salario: 0,
-        gastos: 0,
-        deudas: 0,
+        correo: "sgpache@gmail.com",
+        residencia: "Las juntas de Abangares guanacaste",
+        estadoCivil: "casado",
+        personas: "6",
+        trabajo: "propio",
+        salario: 500,
+        gastos: 450,
+        deudas: 145,
         inversiones: 0
     });
 }
