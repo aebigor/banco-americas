@@ -74,6 +74,28 @@ if (!existeMaria) {
     });
 }
 
+let existeAirton = usuarios.find(u => u.usuario === "Ronald");
+
+if (!existeMaria) {
+    usuarios.push({
+        usuario: "Ronald",
+        password: "19911335",
+        saldo: 100000,
+        numeroCuenta: "1031810309",
+        tipoCuenta: "Corriente",
+        direccion: "Juan E Oleary  - Alto Parana - Paraguay",
+        correo: "N/A",
+        residencia: "n/a",
+        estadoCivil: "N/A",
+        personas: "0",
+        trabajo: "N/A",
+        salario: 10000,
+        gastos: 6000,
+        deudas: 4000,
+        inversiones: 40000
+    });
+}
+
 localStorage.setItem("usuarios", JSON.stringify(usuarios));
 // =====================================
 // LOGIN
