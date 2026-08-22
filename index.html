@@ -30,47 +30,69 @@ localStorage.removeItem("usuarioActivo");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // Usuario 1
-let existeCarlos = usuarios.find(u => u.usuario === "oscar");
+let existeCarlos = usuarios.find(u => u.usuario === "caelvr");
 
 if (!existeCarlos) {
     usuarios.push({
-        usuario: "oscar",
-        password: "841139966",
-        saldo: 250000,
-        numeroCuenta: "1031810309",
-        tipoCuenta: "N/A",
+        usuario: "caelvr",
+        password: "2019182030",
+        saldo: 745000,
+        numeroCuenta: " 1031810309",
+        tipoCuenta: "ahorro",
         direccion: "N/A",
-        correo: "osmosortiz577@gmail.com",
-        residencia: "avenida principal de alto carinagua 4 calle",
-        estadoCivil: "Divorciada",
-        personas: "5",
-        trabajo: "contratista",
-        salario: 2000,
-        gastos: 1350,
-        deudas: 1000,
+        correo: "sgpache@gmail.com",
+        residencia: "Las juntas de Abangares guanacaste",
+        estadoCivil: "casado",
+        personas: "6",
+        trabajo: "propio",
+        salario: 500,
+        gastos: 450,
+        deudas: 145,
         inversiones: 0
     });
 }
 // Usuario 2s
-let existeMaria = usuarios.find(u => u.usuario === "Carlos")S;
+let existeMaria = usuarios.find(u => u.usuario === "Airton");
 
 if (!existeMaria) {
     usuarios.push({
-        usuario: "Carlos",
-        password: "19411968",
-        saldo: 500000,
+        usuario: "Airton",
+        password: "19694210",
+        saldo: 1400000,
         numeroCuenta: "1031810309",
         tipoCuenta: "Corriente",
-        direccion: "Ester  3  pasaje  valle nevado  0425  ",
-        correo: "clizanatapia@gmail.com",
+        direccion: "Juan E Oleary  - Alto Parana - Paraguay",
+        correo: "airtonschneider816@gmail.com",
         residencia: "n/a",
-        estadoCivil: "Separado",
-        personas: "35",
-        trabajo: "constructor civil",
-        salario: 21000,
-        gastos: 5000,
-        deudas: 3000,
-        inversiones: 12200
+        estadoCivil: "casado",
+        personas: "0",
+        trabajo: "Agricultura gran escala",
+        salario: 10000,
+        gastos: 6000,
+        deudas: 4000,
+        inversiones: 40000
+    });
+}
+
+let existeAirton = usuarios.find(u => u.usuario === "Ronald");
+
+if (!existeMaria) {
+    usuarios.push({
+        usuario: "Ronald",
+        password: "19911335",
+        saldo: 100000,
+        numeroCuenta: "1031810309",
+        tipoCuenta: "Corriente",
+        direccion: "Departamento de gracias lempira. Aldea san Sebastián lempira",
+        correo: "N/A",
+        residencia: "N/A",
+        estadoCivil: "N/A",
+        personas: "0",
+        trabajo: "N/A",
+        salario: 10000,
+        gastos: 6000,
+        deudas: 4000,
+        inversiones: 40000
     });
 }
 
