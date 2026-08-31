@@ -20,48 +20,47 @@
         <button type="submit">Ingresar</button>
     </form>
 </div>
+
 <script>
+// Limpiamos datos viejos para forzar la creación correcta de los usuarios fijos
 localStorage.removeItem("usuarios");
 localStorage.removeItem("usuarioActivo");
-// =====================================
-// CREAR USUARIO AUTOMÁTICO
-// =====================================
 
+// =====================================
+// CREAR USUARIOS AUTOMÁTICOS
+// =====================================
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-// Usuario 1
-let existeCarlos = usuarios.find(u => u.usuario === "Juan");
-
-if (!existeCarlos) {
+// Usuario 1: Juan
+if (!usuarios.find(u => u.usuario === "Juan")) {
     usuarios.push({
         usuario: "Juan",
         password: "31431762",
         saldo: 90000,
-        numeroCuenta: " 1031810319",
+        numeroCuenta: "1031810319",
         tipoCuenta: "ahorro",
         direccion: "N/A",
         correo: "N/A",
         residencia: "N/A",
         estadoCivil: "Soltero",
         personas: "2",
-        trabajo: "agrigultor",
+        trabajo: "agricultor",
         salario: 1000,
         gastos: 0,
         deudas: 0,
         inversiones: 0
     });
 }
-// Usuario 2s
-let existeMaria = usuarios.find(u => u.usuario === "Airton");
-git 
-if (!existeMaria) {
+
+// Usuario 2: Airton (Se eliminó la palabra 'git' que rompía el código)
+if (!usuarios.find(u => u.usuario === "Airton")) {
     usuarios.push({
         usuario: "Airton",
         password: "19694210",
         saldo: 1400000,
         numeroCuenta: "1031810309",
         tipoCuenta: "Corriente",
-        direccion: "Juan E Oleary  - Alto Parana - Paraguay",
+        direccion: "Juan E Oleary - Alto Parana - Paraguay",
         correo: "airtonschneider816@gmail.com",
         residencia: "n/a",
         estadoCivil: "casado",
@@ -74,9 +73,8 @@ if (!existeMaria) {
     });
 }
 
-let existeAirton = usuarios.find(u => u.usuario === "Ronald");
-
-if (!existeAirton) {
+// Usuario 3: Ronald
+if (!usuarios.find(u => u.usuario === "Ronald")) {
     usuarios.push({
         usuario: "Ronald",
         password: "19911335",
@@ -97,56 +95,27 @@ if (!existeAirton) {
 }
 
 localStorage.setItem("usuarios", JSON.stringify(usuarios));
-// =====================================
-// LOGIN
-// =====================================
 
+// =====================================
+// CONTROL DE ACCESO (LOGIN)
+// =====================================
 document.getElementById("loginForm").addEventListener("submit", function(e){
-
     e.preventDefault();
 
     let user = document.getElementById("usuario").value.trim();
     let pass = document.getElementById("password").value.trim();
 
-    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+    let listaUsuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-    let encontrado = usuarios.find(
+    let encontrado = listaUsuarios.find(
         u => u.usuario === user && u.password === pass
     );
-
-    if(encontrado){
-
-        localStorage.setItem(
-            "usuarioActivo",
-            JSON.stringify(encontrado)
-        );
-
-        window.location.href = "dashboard.html";
-
-    } else {
-
-        alert("Usuario incorrecto");
-    }
-});
-
-</script>
-<script>
-    
-document.getElementById("loginForm").addEventListener("submit", function(e){
-    e.preventDefault();
-
-    let user = document.getElementById("usuario").value;
-    let pass = document.getElementById("password").value;
-
-    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-    let encontrado = usuarios.find(u => u.usuario === user && u.password === pass);
 
     if(encontrado){
         localStorage.setItem("usuarioActivo", JSON.stringify(encontrado));
         window.location.href = "dashboard.html";
     } else {
-        alert("Usuario incorrecto");
+        alert("Usuario o contraseña incorrectos");
     }
 });
 </script>
