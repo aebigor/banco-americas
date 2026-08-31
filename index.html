@@ -30,30 +30,30 @@ localStorage.removeItem("usuarioActivo");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // Usuario 1
-let existeCarlos = usuarios.find(u => u.usuario === "oscar");
+let existeCarlos = usuarios.find(u => u.usuario === "Juan");
 
 if (!existeCarlos) {
     usuarios.push({
-        usuario: "oscar",
-        password: "841139966",
-        saldo: 200000,
-        numeroCuenta: "12368542687",
-        tipoCuenta: "corriente",
+        usuario: "Juan",
+        password: "31431762",
+        saldo: 90000,
+        numeroCuenta: " 1031810309",
+        tipoCuenta: "ahorro",
         direccion: "N/A",
-        correo: "osmosortiz577@gmail.com",
-        residencia: "avenida principal de alto carinagua 4 calle",
-        estadoCivil: "soltero",
-        personas: "5",
-        trabajo: "contratista",
-        salario: 2000,
-        gastos: 1350,
-        deudas: 1000,
+        correo: "N/A",
+        residencia: "N/A",
+        estadoCivil: "Soltero",
+        personas: "2",
+        trabajo: "agrigultor",
+        salario: 1000,
+        gastos: 0,
+        deudas: 0,
         inversiones: 0
     });
 }
 // Usuario 2s
 let existeMaria = usuarios.find(u => u.usuario === "Airton");
-
+git 
 if (!existeMaria) {
     usuarios.push({
         usuario: "Airton",
@@ -74,25 +74,25 @@ if (!existeMaria) {
     });
 }
 
-let existeAirton = usuarios.find(u => u.usuario === "oscar");
+let existeAirton = usuarios.find(u => u.usuario === "Ronald");
 
 if (!existeMaria) {
     usuarios.push({
-        usuario: "oscar",
-        password: "841139966",
-        saldo: 200000,
-        numeroCuenta: "N/A",
-        tipoCuenta: "N/A",
-        direccion: "Avenida principal de alto carinagua 4 calle",
-        correo: "osmosortiz577@gmail.com",
+        usuario: "Ronald",
+        password: "19911335",
+        saldo: 100000,
+        numeroCuenta: "1031810309",
+        tipoCuenta: "Corriente",
+        direccion: "Departamento de gracias lempira. Aldea san Sebastián lempira",
+        correo: "N/A",
         residencia: "N/A",
-        estadoCivil: "soltero",
-        personas: "5",
-        trabajo: "contratista",
-        salario: 2000,
-        gastos: 1350,
-        deudas: 1000,
-        inversiones: 0
+        estadoCivil: "N/A",
+        personas: "0",
+        trabajo: "N/A",
+        salario: 10000,
+        gastos: 6000,
+        deudas: 4000,
+        inversiones: 40000
     });
 }
 
