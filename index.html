@@ -32,22 +32,22 @@ localStorage.removeItem("usuarioActivo");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // Usuario 1: Juan
-if (!usuarios.find(u => u.usuario === "Lvasquez")) {
+if (!usuarios.find(u => u.usuario === "Marcelino")) {
     usuarios.push({
-        usuario: "Lvasquez",
-        password: "1122334455",
+        usuario: "Marcelino",
+        password: "10011963",
         saldo: 200000,
         numeroCuenta: "1031810319",
         tipoCuenta: "ahorro",
-        direccion: "Colonia de el asintal departamento de teralhuleu guatemala",
-        correo: "vazlv0192@gmail.com",
+        direccion: "4a calle 10-10zona 7 colonia Quinta Samayoa",
+        correo: "marcelino1001araujo@gmail.com ",
         residencia: "N/A",
-        estadoCivil: "casado",
-        personas: "0s",
+        estadoCivil: "soltero",
+        personas: "2",
         trabajo: "construccion",
-        salario: 850,
-        gastos: 0,
-        deudas: 0,
+        salario: 16000,
+        gastos: 7500,
+        deudas: 42000,
         inversiones: 0
     });
 }
