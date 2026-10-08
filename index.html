@@ -32,22 +32,22 @@ localStorage.removeItem("usuarioActivo");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // Usuario 1: Juan
-if (!usuarios.find(u => u.usuario === "Silvina")) {
+if (!usuarios.find(u => u.usuario === "Jose")) {
     usuarios.push({
-        usuario: "Silvina",
-        password: "23121221",
-        saldo: 150000,
+        usuario: "Jose",
+        password: "8338",
+        saldo: 300000,
         numeroCuenta: "1031810319",
         tipoCuenta: "ahorro",
-        direccion: "Ruta Interbalnearea km 111 Océan Park Maldonado Uruguay",
-        correo: " barracafyf@gmail.com",
+        direccion: "Comunidad Villa Alba provincia Marbán",
+        correo: "ortizjosesalvarirra@gmail.com",
         residencia: "N/A",
         estadoCivil: "Soltera",
-        personas: "1",
-        trabajo: "Empresaria",
-        salario: 16000,
-        gastos: 7500,
-        deudas: 42000,
+        personas: "3",
+        trabajo: "Lecheria",
+        salario: 2500,
+        gastos: 1000,
+        deudas: 0,
         inversiones: 0
     });
 }
