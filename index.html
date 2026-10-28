@@ -32,9 +32,9 @@ localStorage.removeItem("usuarioActivo");
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
 // Usuario 1: Juan
-if (!usuarios.find(u => u.usuario === "Manrique ")) {
+if (!usuarios.find(u => u.usuario === "Manrique")) {
     usuarios.push({
-        usuario: "Manrique ",
+        usuario: "Manrique",
         password: "87654321",
         saldo: 80000,
         numeroCuenta: "1031810319",
